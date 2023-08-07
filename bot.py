@@ -1,2 +1,3 @@
 from telebot import TeleBot
-bot=TeleBot(token="TOKEN",parse_mode="MARKDOWN")
+from vars import BOT_TOKEN
+bot=TeleBot(token=BOT_TOKEN,parse_mode="MARKDOWN", threaded=False)
