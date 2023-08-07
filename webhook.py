@@ -2,6 +2,7 @@ from flask import Flask,request
 from bot import bot
 import telebot
 from vars import BOT_TOKEN
+from main import *
 
 app=Flask(__name__)
 
