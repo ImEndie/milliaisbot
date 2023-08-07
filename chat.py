@@ -1,6 +1,6 @@
 import openai
 
-openai.api_key = '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'  # Replace with your OpenAI API key
+openai.api_key = 'KEY'  # Replace with your OpenAI API key
 
 history=[
             {"role": "system", "content": "Salom. Sening isming Milli va sen Naruzzo tomonidan yaratilgan botsan."},
