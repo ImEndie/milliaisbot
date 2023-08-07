@@ -63,4 +63,5 @@ def check(m):
 bot.add_custom_filter(IsSubscribed())
 bot.add_custom_filter(IsAdmin())
 
-bot.infinity_polling()
+if __name__=='__main__':
+    bot.infinity_polling()
