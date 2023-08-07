@@ -15,6 +15,7 @@ def new_chat_members(m):
     bot.delete_message(m.chat.id,m.id)
 
 
+
 @bot.message_handler(is_subscribed=True,commands=['start'])
 def start(m):
     bot.reply_to(m,f"Salom {m.from_user.first_name}!  /help buyrug'idan foydalaning.")
@@ -42,7 +43,7 @@ def unmute(m):
 
 @bot.message_handler(is_subscribed=True,content_types=['text'],func=lambda m: m.text.startswith('/ask'),chat_types=['group','supergroup'])
 def rec_gr(m):
-    bot.reply_to(m,req(m.text[16:]))
+    bot.reply_to(m,req(" ".join(m.text.split()[1:])))
 
 @bot.message_handler(is_subscribed=True,content_types=['text'],chat_types=['private'])
 def rec_pr(m):
