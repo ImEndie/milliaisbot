@@ -3,3 +3,4 @@ openai
 pyTelegramBotApi
 googletrans
 python-dotenv
+gunicorn
