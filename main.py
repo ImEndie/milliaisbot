@@ -22,7 +22,7 @@ def start(m):
 
 @bot.message_handler(is_subscribed=True,commands=['help'])
 def help(m):
-    bot.reply_to(m,"/ask — savollarga javob topishda va ko'plab boshqa muammolarni yechishda yordam beradi. Foydalanish uchun /ask buyrug'i bilan birgalikda xabar kiriting.\nMasalan: ```/ask Salom milliai!```\n/photo — rasmlarni osongina yaratish uchun yordam beradi. Foydalanish uchun /photo buyrug'i bilan birgalikda xabarni kiriting.\nMasalan: ```/photo offisda ishlayotgan mushuk```")
+    bot.reply_to(m,"/ask — savollarga javob topishda va ko'plab boshqa muammolarni yechishda yordam beradi. Foydalanish uchun /ask buyrug'i bilan birgalikda xabar kiriting.\nMasalan: ```\/ask Salom milliai!```\n/photo — rasmlarni osongina yaratish uchun yordam beradi. Foydalanish uchun /photo buyrug'i bilan birgalikda xabarni kiriting.\nMasalan: ```\/photo offisda ishlayotgan mushuk```")
 
 # @bot.message_handler(is_admin=True,commands=['ban'])
 # def ban(m):
