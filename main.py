@@ -45,7 +45,7 @@ def unmute(m):
 def rasm(m):
     bot.send_photo(m.chat.id,photo=gen_img(' '.join(m.text.split()[1:])),reply_to_message_id=m.id)
 
-@bot.message_handler(is_subscribed=True,content_types=['text'],func=lambda m: 'milliai' in m.text,chat_types=['group','supergroup'])
+@bot.message_handler(is_subscribed=True,content_types=['text'],func=lambda m: 'milliai' in m.text.lower(),chat_types=['group','supergroup'])
 def rec_gr(m):
     bot.reply_to(m,req(m.text))
 
