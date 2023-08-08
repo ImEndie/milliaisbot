@@ -12,7 +12,7 @@ history=[
 
 def req(message):
     otm=history.copy()
-    otm.append({'role':'user','content':translator.translate(message)})
+    otm.append({'role':'user','content':translator.translate(message).text})
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=otm
@@ -20,13 +20,13 @@ def req(message):
     if response['choices'][0]['message']['content']:
         history.append(otm[-1])
         history.append(response['choices'][0]['message'])
-        return translator.translate(response['choices'][0]['message']['content'],dest='uz')
+        return translator.translate(response['choices'][0]['message']['content'],dest='uz').text
     else:
         return "Kechirasiz, savolingizni tushunmadim"
 
 def gen_img(t):
     response = openai.Image.create(
-        prompt=translator.translate(t),
+        prompt=translator.translate(t).text,
         n=1,
         size="1024x1024"
     )
