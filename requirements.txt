@@ -1,6 +1,6 @@
 Flask
 openai
 pyTelegramBotApi
-googletrans
+googletrans==3.1.0a0
 python-dotenv
 gunicorn
