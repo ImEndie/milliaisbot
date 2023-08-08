@@ -41,7 +41,7 @@ def unmute(m):
     bot.restrict_chat_member(m.chat.id,m.reply_to_message.from_user.id,time.time()+5)
     bot.delete_message(m.chat.id,m.id)
 
-@bot.message_handler(is_subscribed=True,content_types=['text'],func=lambda m: m.text.startswith('/ask'),chat_types=['group','supergroup'])
+@bot.message_handler(is_subscribed=True,content_types=['text'],func=lambda m: m.text.startswith('milliai'),chat_types=['group','supergroup'])
 def rec_gr(m):
     bot.reply_to(m,req(" ".join(m.text.split()[1:])))
 
@@ -51,7 +51,7 @@ def rec_pr(m):
 
 @bot.message_handler(is_subscribed=True,content_types=['text'],func=lambda m: m.text.startswith('/photo'))
 def rasm(m):
-    bot.send_photo(m.chat.id,photo=gen_img(m.text),reply_to_message_id=m.id)
+    bot.send_photo(m.chat.id,photo=gen_img(' '.join(m.text.split()[1:])),reply_to_message_id=m.id)
 
 @bot.message_handler(func=lambda m: True)
 def check(m):
