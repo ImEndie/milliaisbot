@@ -18,7 +18,7 @@ def new_chat_members(m):
 
 @bot.message_handler(is_subscribed=True,commands=['start'])
 def start(m):
-    bot.reply_to(m,f"Salom {m.from_user.first_name}!  /help buyrug'idan foydalaning.")
+    bot.reply_to(m,f"Assalomu alaykum {m.from_user.first_name}! Botdan foydalanish uchun /help buyrug'idan foydalaning.")
 
 @bot.message_handler(is_subscribed=True,commands=['help'])
 def help(m):
@@ -57,7 +57,7 @@ def rasm(m):
 def check(m):
     if bot.get_chat_member("@milliai",m.from_user.id).status not in ['administrator','creator','member']:
         bot.delete_message(m.chat.id,m.id)
-        bot.send_message(m.chat.id,f"{m.from_user.first_name} MilliAI kanaliga obuna bo'ling!",reply_markup=markup)
+        bot.send_message(m.chat.id,f"Assalomu alaykum {m.chat.first_name} @milliaibot dan foydalanishdan oldin bizning rasmiy telegram sahifamizga va homiy telegram kanaliga obuna bo'ling",reply_markup=markup)
 
 
 bot.add_custom_filter(IsSubscribed())
