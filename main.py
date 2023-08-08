@@ -9,10 +9,6 @@ from vars import ADMINS
 markup=types.InlineKeyboardMarkup()
 markup.add(types.InlineKeyboardButton("MILLI AI kanali","https://t.me/milliai"))
 
-@bot.middleware_handler(update_types=['message'])
-def register_user(bot_instance,message):
-    ins(message.from_user.id)
-
 @bot.message_handler(content_types=['new_chat_members'])
 def new_chat_members(m):
     for i in m.new_chat_members:
@@ -21,6 +17,7 @@ def new_chat_members(m):
 
 @bot.message_handler(is_subscribed=True,commands=['start'])
 def start(m):
+    ins(m.from_user.id)
     bot.reply_to(m,f"Assalomu alaykum {m.from_user.first_name}! Botdan foydalanish uchun /help buyrug'idan foydalaning.")
 
 @bot.message_handler(is_subscribed=True,commands=['help'])
