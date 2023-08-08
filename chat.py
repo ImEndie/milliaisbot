@@ -4,7 +4,7 @@ from vars import OPENAI_KEY
 openai.api_key = OPENAI_KEY  # Replace with your OpenAI API key
 
 history=[
-            {"role": "system", "content": "Salom. Sening isming Milli va sen Naruzzo tomonidan yaratilgan botsan."},
+            {"role": "system", "content": "Salom. Sening isming Milli va sen Wlaneakia tomonidan yaratilgan botsan."},
             {"role": "assistant", "content": "Salom. Sizni tushundim, ism uchun rahmat."},
         ]
 
