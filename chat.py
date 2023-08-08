@@ -1,16 +1,19 @@
 import openai
 from vars import OPENAI_KEY
+from googletrans import Translator
+translator = Translator()
 
 openai.api_key = OPENAI_KEY  # Replace with your OpenAI API key
 
 history=[
-            {"role": "system", "content": "Salom. Sening isming Milli va sen Naruzzo tomonidan yaratilgan botsan."},
-            {"role": "assistant", "content": "Salom. Sizni tushundim, ism uchun rahmat."},
+            {"role": "system", "content": "Hi, your name is MilliAI and you are created by Wlaneakia team."},
+            {"role": "assistant", "content": "Thank you for name"},
         ]
 
 def req(message):
+    r=translator.translate(text=message)
     otm=history.copy()
-    otm.append({'role':'user','content':message})
+    otm.append({'role':'user','content':r.text})
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=otm
@@ -18,13 +21,15 @@ def req(message):
     if response['choices'][0]['message']['content']:
         history.append(otm[-1])
         history.append(response['choices'][0]['message'])
-        return response['choices'][0]['message']['content']
+        r=translator.translate(text=response['choices'][0]['message']['content'],dest='uz')
+        return r.text
     else:
         return "Kechirasiz, savolingizni tushunmadim"
 
 def gen_img(t):
+    r=translator.translate(text=t)
     response = openai.Image.create(
-        prompt=t,
+        prompt=r.text,
         n=1,
         size="1024x1024"
     )
