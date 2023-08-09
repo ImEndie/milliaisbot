@@ -65,11 +65,14 @@ def rec_gr(m):
     try:
         bot.reply_to(m,req(' '.join(m.text.split()[1:])))
     except:
-        bot.send_mess(m,req(' '.join(m.text.split()[1:])))
+        bot.send_message(m,req(' '.join(m.text.split()[1:])))
 
 @bot.message_handler(is_subscribed=True,content_types=['text'],chat_types=['private'])
 def rec_pr(m):
-    bot.reply_to(m,req(m.text))
+    try:
+        bot.reply_to(m,req(m.text))
+    except:
+        bot.send_message(m.chat.id,req(m.text))
 
 @bot.message_handler(func=lambda m: True)
 def check(m):
