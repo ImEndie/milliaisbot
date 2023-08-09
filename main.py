@@ -1,16 +1,15 @@
-import time
-from telebot import types
 from bot import bot
 from chat import gen_img, req
 from filters import IsAdmin , IsSubscribed
 from database import ins,get_all,get_count
 from vars import ADMINS
+from keyboards import Keyboards
+from telebot.types import Message
 
-markup=types.InlineKeyboardMarkup()
-markup.add(types.InlineKeyboardButton("MILLI AI kanali","https://t.me/milliai"))
+keyboards=Keyboards(bot)
 
 @bot.message_handler(content_types=['new_chat_members'])
-def new_chat_members(m):
+def new_chat_members(m: Message):
     for i in m.new_chat_members:
         bot.send_message(m.chat.id,f"Salom {i.first_name}!\nGuruxga xush kelibsiz.")
     try:
@@ -19,69 +18,71 @@ def new_chat_members(m):
         print(e)
 
 @bot.message_handler(is_subscribed=True,commands=['start'])
-def start(m):
+def start(m: Message):
     ins(m.from_user.id)
-    bot.reply_to(m,f"Assalomu alaykum {m.from_user.first_name}! Botdan foydalanish uchun /help buyrug'idan foydalaning.")
+    bot.send_message(
+        m.chat.id,
+        f"Assalomu alaykum {m.from_user.first_name}! Botdan foydalanish uchun /help buyrug'idan foydalaning.",
+        reply_markup=keyboards.getMainButtons() if m.chat.type=='private' else None
+    )
 
 @bot.message_handler(is_subscribed=True,commands=['help'])
-def help(m):
-    bot.reply_to(m,"/ask — savollarga javob topishda va ko'plab boshqa muammolarni yechishda yordam beradi. Foydalanish uchun /ask buyrug'i bilan birgalikda xabar kiriting.\nMasalan: ``` /ask Salom milliai!``` \n/photo — rasmlarni osongina yaratish uchun yordam beradi. Foydalanish uchun /photo buyrug'i bilan birgalikda xabarni kiriting.\nMasalan: ``` /photo offisda ishlayotgan mushuk ```\n /stats — Bot statistikasi\n /contact — Adminlarga xabar yuborish")
+def help(m: Message):
+    bot.reply_to(m,"/ask — savollarga javob topishda va ko'plab boshqa muammolarni yechishda yordam beradi. Foydalanish uchun /ask buyrug'i bilan birgalikda xabar kiriting.\nMasalan: ``` /ask Salom milliai!``` \n/photo — rasmlarni osongina yaratish uchun yordam beradi. Foydalanish uchun /photo buyrug'i bilan birgalikda xabarni kiriting.\nMasalan: ``` /photo offisda ishlayotgan mushuk ```")
 
-@bot.message_handler(is_subscribed=True,commands=['stats'])
-def stats(m):
-    bot.reply_to(m,f"Botdan hozirda {get_count()}ta foydalanuvchi foydalanadi.")
+@bot.message_handler(chat_types=['private'],content_types=['text'],func=keyboards.statsFilter)
+def stats(m: Message): keyboards.statsFunc(m)
 
 @bot.message_handler(commands=['ad'])
-def ad(m):
+def ad(m: Message):
     if str(m.from_user.id) in ADMINS:
-        bot.reply_to(m,f"Reklama uchun postni menga yuboring.")
-        bot.register_next_step_handler(m,ad2)
+        msg=bot.reply_to(m,f"Reklama uchun postni menga yuboring.")
+        bot.register_next_step_handler(msg,ad2)
 
-def ad2(m):
+def ad2(m: Message):
     for i in get_all():
         try:
             bot.copy_message(i[0],m.chat.id,m.id)
         except Exception as e:
             print(e)
 
-@bot.message_handler(commands=['contact'])
-def contact(m):
-    bot.reply_to(m,f"Adminlarga yuborish uchun xabarni kiriting.")
-    bot.register_next_step_handler(m,contact2)
+@bot.message_handler(chat_types=['private'],content_types=['text'],func=keyboards.contactFilter)
+def contact(m: Message): keyboards.contactFunc(m)
 
-def contact2(m):
-    for i in ADMINS:
-        try:
-            bot.forward_message(i,m.chat.id,m.id)
-        except Exception as e:
-            print(e)
-
-@bot.message_handler(is_subscribed=True,content_types=['text'],func=lambda m: m.text.startswith('/photo'))
-def rasm(m):
+@bot.message_handler(is_subscribed=True,content_types=['text'],func=lambda m: m.text.startswith('/photo'),chat_types=['group','supergroup'])
+def rasm(m: Message):
     try:
         bot.send_photo(m.chat.id,photo=gen_img(' '.join(m.text.split()[1:])),reply_to_message_id=m.id)
     except:
         bot.send_photo(m.chat.id,photo=gen_img(' '.join(m.text.split()[1:])))
 
+@bot.message_handler(is_subscribed=True,content_types=['text'],func=keyboards.genFilter)
+def rasm_pr(m: Message): keyboards.genFunc(m)
+
 @bot.message_handler(is_subscribed=True,content_types=['text'],func=lambda m: m.text.startswith('/ask'),chat_types=['group','supergroup'])
-def rec_gr(m):
+def rec_gr(m: Message):
     try:
         bot.reply_to(m,req(' '.join(m.text.split()[1:])))
     except:
         bot.send_message(m,req(' '.join(m.text.split()[1:])))
 
-@bot.message_handler(is_subscribed=True,content_types=['text'],chat_types=['private'])
-def rec_pr(m):
-    try:
-        bot.reply_to(m,req(m.text))
-    except:
-        bot.send_message(m.chat.id,req(m.text))
+@bot.message_handler(is_subscribed=True,content_types=['text'],chat_types=['private'],func=keyboards.askFilter)
+def rec_pr(m: Message): keyboards.askFunc(m)
+
+@bot.message_handler(content_types=['text'],chat_types=['private'],func=keyboards.requestFilter)
+def reqhandler(m: Message): keyboards.requestFunc(m)
+
+@bot.message_handler(chat_types=['private'],func=keyboards.replyFilter)
+def reply(m: Message): keyboards.reply(m)
 
 @bot.message_handler(func=lambda m: True)
-def check(m):
+def check(m: Message):
     if bot.get_chat_member("@milliai",m.from_user.id).status not in ['administrator','creator','member']:
-        bot.delete_message(m.chat.id,m.id)
-        bot.send_message(m.chat.id,f"Assalomu alaykum {m.chat.first_name} @milliaibot dan foydalanishdan oldin bizning rasmiy telegram sahifamizga va homiy telegram kanaliga obuna bo'ling",reply_markup=markup)
+        try:
+            bot.delete_message(m.chat.id,m.id)
+        except Exception as e:
+            print(e)
+        bot.send_message(m.chat.id,f"Assalomu alaykum {m.chat.first_name} @milliaibot dan foydalanishdan oldin bizning rasmiy telegram sahifamizga va homiy telegram kanaliga obuna bo'ling",reply_markup=keyboards.getChannelButton)
 
 
 bot.add_custom_filter(IsSubscribed())

@@ -1,0 +1,79 @@
+from telebot.types import Message,ReplyKeyboardMarkup,KeyboardButton,InlineKeyboardButton,InlineKeyboardMarkup
+from telebot import TeleBot
+from chat import gen_img, req
+from database import get_count
+from vars import ADMINS
+
+class Keyboards:
+    def __init__(self,bot: TeleBot):
+        self.bot=bot
+    def getMainButtons(self):
+        markup=ReplyKeyboardMarkup(resize_keyboard=True)
+        markup.add(
+            KeyboardButton("Savol berish ❔")
+        )
+        markup.add(
+            KeyboardButton("Rasm generatsiya qilish 🖼")
+        )
+        markup.add(
+            KeyboardButton("Aloqa ☎️"),
+            KeyboardButton("Murojaat 📝")
+        )
+        markup.add(
+            KeyboardButton("Statistika 📊")
+        )
+        return markup
+    def getChannelButton(self):
+        markup=InlineKeyboardMarkup()
+        markup.add(InlineKeyboardButton("MILLI AI kanali","https://t.me/milliai"))
+        return markup
+    def askFunc(self,m: Message):
+        msg=self.bot.send_message(m.chat.id,"Qanday savolingiz bor?")
+        self.bot.register_next_step_handler(msg,self.askFunc2)
+    def askFunc2(self,m: Message):
+        r=req(m.text)
+        try:
+            self.bot.reply_to(m,r)
+        except:
+            self.bot.send_message(m.chat.id,r)
+    def genFunc(self,m: Message):
+        msg=self.bot.send_message(m.chat.id,"Qanday rasm generatsiya qilishni xoxlaysiz?")
+        self.bot.register_next_step_handler(msg,self.genFunc2)
+    def genFunc2(self,m: Message):
+        r=gen_img(m.text)
+        try:
+            try:
+                self.bot.send_photo(m.chat.id,photo=r,reply_to_message_id=m.id)
+            except:
+                self.bot.send_photo(m.chat.id,photo=r)
+        except:
+            self.bot.send_message(m.chat.id,r)
+    def contactFunc(self,m: Message):
+        msg=self.bot.reply_to(m,f"Adminlarga yuborish uchun xabarni kiriting.")
+        self.bot.register_next_step_handler(msg,self.contactFunc2)
+    def contactFunc2(self,m: Message):
+        for i in ADMINS:
+            try:
+                self.bot.forward_message(i,m.chat.id,m.id)
+            except Exception as e:
+                print(e)
+    def reply(self,m: Message):
+        self.bot.copy_message(m.reply_to_message.forward_from.id,m.chat.id,m.id)
+    def requestFunc(self,m: Message):
+        self.bot.send_message(m.chat.id,"Reklama va takliflar uchun murojaat:\n@Naruzzo\n@ImEndie")
+    def statsFunc(self,m: Message):
+        self.bot.send_message(m.chat.id,f"Botdan hozirda {get_count()}ta foydalanuvchi foydalanadi.")
+    
+    def askFilter(self,m: Message):
+        return m.text=="Savol berish ❔"
+    def genFilter(self,m: Message):
+        return m.text=="Rasm generatsiya qilish 🖼"
+    def contactFilter(self,m: Message):
+        return m.text=="Aloqa ☎️"
+    def replyFilter(self,m: Message):
+        cond = m.reply_to_message is not None and str(m.chat.id) in ADMINS
+        return m.reply_to_message.forward_from if cond else False
+    def requestFilter(self,m: Message):
+        return m.text=="Murojaat 📝"
+    def statsFilter(self,m: Message):
+        return m.text=="Statistika 📊"

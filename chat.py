@@ -1,8 +1,7 @@
-import time
 import openai
 from vars import OPENAI_KEY
-import random
 from googletrans import Translator
+
 translator = Translator()
 api_keys=OPENAI_KEY.copy()
 def change_api():
