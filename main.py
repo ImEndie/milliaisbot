@@ -13,7 +13,10 @@ markup.add(types.InlineKeyboardButton("MILLI AI kanali","https://t.me/milliai"))
 def new_chat_members(m):
     for i in m.new_chat_members:
         bot.send_message(m.chat.id,f"Salom {i.first_name}!\nGuruxga xush kelibsiz.")
-    bot.delete_message(m.chat.id,m.id)
+    try:
+        bot.delete_message(m.chat.id,m.id)
+    except Exception as e:
+        print(e)
 
 @bot.message_handler(is_subscribed=True,commands=['start'])
 def start(m):
@@ -49,7 +52,7 @@ def contact(m):
 def contact2(m):
     for i in ADMINS:
         try:
-            bot.copy_message(i,m.chat.id,m.id)
+            bot.forward_message(i,m.chat.id,m.id)
         except Exception as e:
             print(e)
 
