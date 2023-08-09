@@ -31,23 +31,33 @@ class Keyboards:
         msg=self.bot.send_message(m.chat.id,"Qanday savolingiz bor?")
         self.bot.register_next_step_handler(msg,self.askFunc2)
     def askFunc2(self,m: Message):
+        msg=self.bot.send_message(m.chat.id,"Savolingiz haqida o'ylayabman.\nBiroz kuting.")
         r=req(m.text)
         try:
             self.bot.reply_to(m,r)
         except:
             self.bot.send_message(m.chat.id,r)
+        try:
+            self.bot.delete_message(msg.chat.id,msg.id)
+        except Exception as e:
+            print(e)
     def genFunc(self,m: Message):
         msg=self.bot.send_message(m.chat.id,"Qanday rasm generatsiya qilishni xoxlaysiz?")
         self.bot.register_next_step_handler(msg,self.genFunc2)
     def genFunc2(self,m: Message):
+        msg=self.bot.send_message(m.chat.id,"Rasm chizyabman.\nBiroz kuting.")
         r=gen_img(m.text)
         try:
             try:
-                self.bot.send_photo(m.chat.id,photo=r,reply_to_message_id=m.id)
+                self.bot.send_photo(m.chat.id,photo=r[1],caption=r[0],reply_to_message_id=m.id)
             except:
-                self.bot.send_photo(m.chat.id,photo=r)
+                self.bot.send_photo(m.chat.id,photo=r[1],caption=r[0])
         except:
             self.bot.send_message(m.chat.id,r)
+        try:
+            self.bot.delete_message(msg.chat.id,msg.id)
+        except Exception as e:
+            print(e)
     def contactFunc(self,m: Message):
         msg=self.bot.reply_to(m,f"Adminlarga yuborish uchun xabarni kiriting.")
         self.bot.register_next_step_handler(msg,self.contactFunc2)
