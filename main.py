@@ -22,7 +22,7 @@ def start(m):
 
 @bot.message_handler(is_subscribed=True,commands=['help'])
 def help(m):
-    bot.reply_to(m,"/ask — savollarga javob topishda va ko'plab boshqa muammolarni yechishda yordam beradi. Foydalanish uchun /ask buyrug'i bilan birgalikda xabar kiriting.\nMasalan: ``` /ask Salom milliai!``` \n/photo — rasmlarni osongina yaratish uchun yordam beradi. Foydalanish uchun /photo buyrug'i bilan birgalikda xabarni kiriting.\nMasalan: ``` /photo offisda ishlayotgan mushuk ```\n /stats — Bot statistikasi")
+    bot.reply_to(m,"/ask — savollarga javob topishda va ko'plab boshqa muammolarni yechishda yordam beradi. Foydalanish uchun /ask buyrug'i bilan birgalikda xabar kiriting.\nMasalan: ``` /ask Salom milliai!``` \n/photo — rasmlarni osongina yaratish uchun yordam beradi. Foydalanish uchun /photo buyrug'i bilan birgalikda xabarni kiriting.\nMasalan: ``` /photo offisda ishlayotgan mushuk ```\n /stats — Bot statistikasi\n /contact — Adminlarga xabar yuborish")
 
 @bot.message_handler(is_subscribed=True,commands=['stats'])
 def stats(m):
@@ -40,22 +40,18 @@ def ad2(m):
             bot.copy_message(i[0],m.chat.id,m.id)
         except Exception as e:
             print(e)
-# @bot.message_handler(is_admin=True,commands=['ban'])
-# def ban(m):
-#     bot.ban_chat_member(m.chat.id,m.reply_to_message.from_user.id)
-#     bot.delete_message(m.chat.id,m.id)
 
-# @bot.message_handler(is_admin=True,content_types=['text'],func=lambda m: m.text.startswith('/mute'))
-# def mute(m):
-#     s=m.text.split()
-#     bot.restrict_chat_member(m.chat.id,m.reply_to_message.from_user.id,time.time()+int(s[1]) if len(s)>0 else None)
-#     bot.delete_message(m.chat.id,m.id)
+@bot.message_handler(commands=['contact'])
+def contact(m):
+    bot.reply_to(m,f"Adminlarga yuborish uchun xabarni kiriting.")
+    bot.register_next_step_handler(m,contact2)
 
-# @bot.message_handler(is_admin=True,content_types=['text'],func=lambda m: m.text.startswith('/unmute'))
-# def unmute(m):
-#     s=m.text.split()
-#     bot.restrict_chat_member(m.chat.id,m.reply_to_message.from_user.id,time.time()+5)
-#     bot.delete_message(m.chat.id,m.id)
+def contact2(m):
+    for i in ADMINS:
+        try:
+            bot.copy_message(i,m.chat.id,m.id)
+        except Exception as e:
+            print(e)
 
 @bot.message_handler(is_subscribed=True,content_types=['text'],func=lambda m: m.text.startswith('/photo'))
 def rasm(m):
