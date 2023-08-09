@@ -30,14 +30,14 @@ def stats(m):
 
 @bot.message_handler(commands=['ad'])
 def ad(m):
-    if m.from_user.id in ADMINS:
+    if str(m.from_user.id) in ADMINS:
         bot.reply_to(m,f"Reklama uchun postni menga yuboring.")
         bot.register_next_step_handler(m,ad2)
 
 def ad2(m):
     for i in get_all():
         try:
-            bot.copy_message(i['user_id'],m.chat.id,m.id)
+            bot.copy_message(i[0],m.chat.id,m.id)
         except Exception as e:
             print(e)
 # @bot.message_handler(is_admin=True,commands=['ban'])

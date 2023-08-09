@@ -6,7 +6,7 @@ translator = Translator()
 openai.api_key = OPENAI_KEY  # Replace with your OpenAI API key
 
 history=[
-            {"role": "system", "content": "Hi, your name is MilliAI and you are created by Wlaneakia team."},
+            {"role": "system", "content": "Hi, your name is MilliAI and you are created by TRONX-STD and Wlaneakia teams."},
             {"role": "assistant", "content": "Thank you for name"},
         ]
 

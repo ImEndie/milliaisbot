@@ -1,26 +1,32 @@
-from pymongo.mongo_client import MongoClient
-from pymongo.server_api import ServerApi
-from vars import MONGO_URI
+import psycopg2
+from vars import PG_URI
 
-# Create a new client and connect to the server
-client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
-# Send a ping to confirm a successful connection
-try:
-    client.admin.command('ping')
-    print("Pinged your deployment. You successfully connected to MongoDB!")
-except Exception as e:
-    print(e)
-
-db = client['milliai']
-users=db.get_collection('users')
-
-def ins(id):
-    r=users.find_one({"user_id":int(id)},max_time_ms=500)
-    if not r:
-        users.insert_one({"user_id":int(id)})
-
-def get_count():
-    return users.count_documents(filter={})
+conn = psycopg2.connect(PG_URI)
 
 def get_all():
-    return users.find({})
+    cur=conn.cursor()
+    cur.execute('SELECT chat_id FROM Persons;')
+    l=cur.fetchall()
+    cur.close()
+    return l
+
+def get_count():
+    cur=conn.cursor()
+    cur.execute('SELECT chat_id FROM Persons;')
+    l=cur.fetchall()
+    cur.close()
+    return len(l)
+
+def ins(chat_id):
+    cur=conn.cursor()
+    id=str(chat_id)
+    cur.execute("""SELECT * FROM Persons
+WHERE chat_id='%s';"""%id)
+    user=cur.fetchone()
+    if user:
+        cur.close()
+        return
+    cur.execute("""INSERT INTO Persons (chat_id)
+VALUES ('%s');"""%(id))
+    conn.commit()
+    cur.close()

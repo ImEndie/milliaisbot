@@ -4,4 +4,4 @@ pyTelegramBotApi
 googletrans==3.1.0a0
 python-dotenv
 gunicorn
-pymongo
+psycopg2-binary
