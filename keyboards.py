@@ -45,7 +45,9 @@ class Keyboards:
             return True
         return False
     def askFunc(self,m: Message):
-        msg=self.bot.send_message(m.chat.id,"Qanday savolingiz bor?")
+        msg=self.bot.send_message(m.chat.id,"""Bu bo'lim sizga savollarga javob topishda va ko'plab boshqa muammolarni yechishda yordam beradi. Foydalanish uchun biron bir matn kiriting.
+
+Masalan:  Salom milliai!""")
         self.bot.register_next_step_handler(msg,self.askFunc2)
     def askFunc2(self,m: Message):
         if self.anotherFilter(m):
@@ -61,7 +63,10 @@ class Keyboards:
         except Exception as e:
             print(e)
     def genFunc(self,m: Message):
-        msg=self.bot.send_message(m.chat.id,"Qanday rasm generatsiya qilishni xoxlaysiz?")
+        msg=self.bot.send_message(m.chat.id,"""Bu bo'lim sizga rasmlarni osongina yaratish uchun yordam beradi. 
+Foydalanish uchun rasm haqidagi matnni kiriting.
+
+Masalan:  ``` Offisda ishlayotgan mushuk. ```""")
         self.bot.register_next_step_handler(msg,self.genFunc2)
     def genFunc2(self,m: Message):
         if self.anotherFilter(m):
