@@ -25,7 +25,7 @@ class Keyboards:
         return markup
     def getChannelButton(self):
         markup=InlineKeyboardMarkup()
-        markup.add(InlineKeyboardButton("MILLI AI kanali","https://t.me/milliai"))
+        markup.add(InlineKeyboardButton("MILLI AI kanali","https://t.me/milliai"),row_width=1)
         return markup
     def anotherFilter(self,m):
         if self.askFilter(m): 
