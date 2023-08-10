@@ -52,4 +52,5 @@ def gen_img(t):
     except Exception as e:
         print(e)
         change_api()
+        if "Your request was rejected as a result of our safety system." in str(e): return "Bu turdagi so'rov taqiqlangan."
         return "Iltimos keyinroq urinib ko'ring. Muammo bo'lsa /contact buyrug'i yordamida admin bilan bog'laning."
