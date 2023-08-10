@@ -27,10 +27,29 @@ class Keyboards:
         markup=InlineKeyboardMarkup()
         markup.add(InlineKeyboardButton("MILLI AI kanali","https://t.me/milliai"))
         return markup
+    def anotherFilter(self,m):
+        if self.askFilter(m): 
+            self.askFunc(m)
+            return True
+        if self.contactFilter(m):
+            self.contactFunc(m)
+            return True
+        if self.genFilter(m):
+            self.genFunc(m)
+            return True
+        if self.requestFilter(m):
+            self.requestFunc(m)
+            return True
+        if self.statsFilter(m):
+            self.statsFunc(m)
+            return True
+        return False
     def askFunc(self,m: Message):
         msg=self.bot.send_message(m.chat.id,"Qanday savolingiz bor?")
         self.bot.register_next_step_handler(msg,self.askFunc2)
     def askFunc2(self,m: Message):
+        if self.anotherFilter(m):
+            return
         msg=self.bot.send_message(m.chat.id,"Savolingiz haqida o'ylayabman.\nBiroz kuting.")
         r=req(m.text)
         try:
@@ -45,13 +64,15 @@ class Keyboards:
         msg=self.bot.send_message(m.chat.id,"Qanday rasm generatsiya qilishni xoxlaysiz?")
         self.bot.register_next_step_handler(msg,self.genFunc2)
     def genFunc2(self,m: Message):
+        if self.anotherFilter(m):
+            return
         msg=self.bot.send_message(m.chat.id,"Rasm chizyabman.\nBiroz kuting.")
         r=gen_img(m.text)
         try:
             try:
-                self.bot.send_photo(m.chat.id,photo=r[1],caption=r[0],reply_to_message_id=m.id)
+                self.bot.send_photo(m.chat.id,photo=r,reply_to_message_id=m.id)
             except:
-                self.bot.send_photo(m.chat.id,photo=r[1],caption=r[0])
+                self.bot.send_photo(m.chat.id,photo=r)
         except:
             self.bot.send_message(m.chat.id,r)
         try:
@@ -62,13 +83,19 @@ class Keyboards:
         msg=self.bot.reply_to(m,f"Adminlarga yuborish uchun xabarni kiriting.")
         self.bot.register_next_step_handler(msg,self.contactFunc2)
     def contactFunc2(self,m: Message):
+        if self.anotherFilter(m):
+            return
         for i in ADMINS:
             try:
                 self.bot.forward_message(i,m.chat.id,m.id)
             except Exception as e:
                 print(e)
     def reply(self,m: Message):
-        self.bot.copy_message(m.reply_to_message.forward_from.id,m.chat.id,m.id)
+        try:
+            self.bot.copy_message(m.reply_to_message.forward_from.id,m.chat.id,m.id,reply_to_message_id=m.reply_to_message.forward_from_message_id)
+        except Exception as e:
+            print(e)
+            self.bot.copy_message(m.reply_to_message.forward_from.id,m.chat.id,m.id)
     def requestFunc(self,m: Message):
         self.bot.send_message(m.chat.id,"Reklama va takliflar uchun murojaat:\n@Naruzzo\n@ImEndie")
     def statsFunc(self,m: Message):
