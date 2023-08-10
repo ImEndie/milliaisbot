@@ -82,7 +82,7 @@ def check(m: Message):
             bot.delete_message(m.chat.id,m.id)
         except Exception as e:
             print(e)
-        bot.send_message(m.chat.id,f"Assalomu alaykum {m.chat.first_name} @milliaibot dan foydalanishdan oldin bizning rasmiy telegram sahifamizga va homiy telegram kanaliga obuna bo'ling",reply_markup=keyboards.getChannelButton)
+        bot.send_message(m.chat.id,f"Assalomu alaykum {m.chat.first_name} @milliaibot dan foydalanishdan oldin bizning rasmiy telegram sahifamizga va homiy telegram kanaliga obuna bo'ling",reply_markup=keyboards.getChannelButton())
 
 
 bot.add_custom_filter(IsSubscribed())
