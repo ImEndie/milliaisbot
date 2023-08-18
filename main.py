@@ -11,7 +11,7 @@ keyboards=Keyboards(bot)
 @bot.message_handler(content_types=['new_chat_members'])
 def new_chat_members(m: Message):
     for i in m.new_chat_members:
-        bot.send_message(m.chat.id,f"Salom {i.first_name}!\nGuruxga xush kelibsiz.")
+        bot.send_message(m.chat.id,f"Assalomu alaykum {i.first_name}!\nGuruxga xush kelibsiz.")
     try:
         bot.delete_message(m.chat.id,m.id)
     except Exception as e:
@@ -86,7 +86,7 @@ def check(m: Message):
             bot.delete_message(m.chat.id,m.id)
         except Exception as e:
             print(e)
-        bot.send_message(m.chat.id,f"Assalomu alaykum {m.chat.first_name} @milliaibot dan foydalanishdan oldin bizning rasmiy telegram sahifamizga va homiy telegram kanaliga obuna bo'ling",reply_markup=keyboards.getChannelButton())
+        bot.send_message(m.chat.id,f"Assalomu alaykum {m.from_user.first_name} @milliaibot dan foydalanishdan oldin bizning rasmiy telegram sahifamizga va homiy telegram kanaliga obuna bo'ling",reply_markup=keyboards.getChannelButton())
 
 
 bot.add_custom_filter(IsSubscribed())
