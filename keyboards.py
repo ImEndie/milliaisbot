@@ -26,6 +26,7 @@ class Keyboards:
     def getChannelButton(self):
         markup=InlineKeyboardMarkup()
         markup.add(InlineKeyboardButton("MILLI AI kanali","https://t.me/milliai"),row_width=1)
+        markup.add(InlineKeyboardButton("TRONX-STD kanali","https://t.me/tronx_std"),row_width=1)
         return markup
     def anotherFilter(self,m):
         if self.askFilter(m): 
@@ -52,7 +53,7 @@ Masalan:  ``` Salom milliai! ```""")
     def askFunc2(self,m: Message):
         if self.anotherFilter(m):
             return
-        msg=self.bot.send_message(m.chat.id,"Savolingiz haqida o'ylayabman.\nBiroz kuting.")
+        msg=self.bot.send_message(m.chat.id,"Savolingiz haqida o'ylayapman.\nBiroz kuting.")
         r=req(m.text)
         try:
             self.bot.reply_to(m,r)
@@ -71,7 +72,7 @@ Masalan:  ``` Offisda ishlayotgan mushuk. ```""")
     def genFunc2(self,m: Message):
         if self.anotherFilter(m):
             return
-        msg=self.bot.send_message(m.chat.id,"Rasm chizyabman.\nBiroz kuting.")
+        msg=self.bot.send_message(m.chat.id,"Rasm chizyapman.\nBiroz kuting.")
         r=gen_img(m.text)
         try:
             try:
