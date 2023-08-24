@@ -53,7 +53,7 @@ Masalan:  ``` Salom milliai! ```""")
     def askFunc2(self,m: Message):
         if self.anotherFilter(m):
             return
-        msg=self.bot.send_message(m.chat.id,"Savolingiz haqida o'ylayapman.\nBiroz kuting.")
+        msg=self.bot.send_message(m.chat.id,"🤔 Oʻylayapman. \nBiroz kuting...")
         r=req(m.text)
         try:
             self.bot.reply_to(m,r)
