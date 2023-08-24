@@ -27,7 +27,7 @@ class Keyboards:
         markup=InlineKeyboardMarkup()
         markup.add(InlineKeyboardButton("MILLI AI kanali","https://t.me/milliai"),row_width=1)
         markup.add(InlineKeyboardButton("TRONX-STD kanali","https://t.me/tronx_std"),row_width=1)
-        markup.add(InlineKeyboardButton("Qayta ishga tushirish ♻️","https://t.me/milliaibot"),row_width=1)
+        markup.add(InlineKeyboardButton("Qayta ishga tushirish ♻️","https://t.me/milliaibot?start"),row_width=1)
         return markup
     def anotherFilter(self,m):
         if self.askFilter(m): 
