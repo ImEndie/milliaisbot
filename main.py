@@ -4,7 +4,7 @@ from filters import IsAdmin , IsSubscribed
 from database import ins,get_all,get_count
 from vars import ADMINS
 from keyboards import Keyboards
-from telebot.types import Message
+from telebot.types import Message,CallbackQuery
 
 keyboards=Keyboards(bot)
 
@@ -79,9 +79,12 @@ def reqhandler(m: Message): keyboards.requestFunc(m)
 @bot.message_handler(chat_types=['private'],func=keyboards.replyFilter)
 def reply(m: Message): keyboards.reply(m)
 
+@bot.callback_query_handler(keyboards.checkFilter)
+def check_subscription(cb: CallbackQuery): keyboards.checkFunc(cb)
+
 @bot.message_handler(func=lambda m: True)
 def check(m: Message):
-    if bot.get_chat_member("@milliai",m.from_user.id).status not in ['administrator','creator','member']:
+    if not IsSubscribed.check(m):
         try:
             bot.delete_message(m.chat.id,m.id)
         except Exception as e:

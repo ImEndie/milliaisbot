@@ -1,7 +1,8 @@
-from telebot.types import Message,ReplyKeyboardMarkup,KeyboardButton,InlineKeyboardButton,InlineKeyboardMarkup
+from telebot.types import Message,ReplyKeyboardMarkup,KeyboardButton,InlineKeyboardButton,InlineKeyboardMarkup,CallbackQuery
 from telebot import TeleBot
 from chat import gen_img, req
 from database import get_count
+from filters import IsSubscribed
 from vars import ADMINS
 
 class Keyboards:
@@ -25,9 +26,9 @@ class Keyboards:
         return markup
     def getChannelButton(self):
         markup=InlineKeyboardMarkup()
-        markup.add(InlineKeyboardButton("MILLI AI kanali","https://t.me/milliai"),row_width=1)
-        markup.add(InlineKeyboardButton("TRONX-STD kanali","https://t.me/tronx_std"),row_width=1)
-        markup.add(InlineKeyboardButton("Qayta ishga tushirish ♻️","https://t.me/milliaibot?start"),row_width=1)
+        markup.add(InlineKeyboardButton("milli ai","https://t.me/milliai"),row_width=1)
+        markup.add(InlineKeyboardButton("TRONX-STD","https://t.me/tronx_std"),row_width=1)
+        markup.add(InlineKeyboardButton("Tekshirish 🔁",callback_data="check"),row_width=1)
         return markup
     def anotherFilter(self,m):
         if self.askFilter(m): 
@@ -46,6 +47,13 @@ class Keyboards:
             self.statsFunc(m)
             return True
         return False
+    def checkFunc(self,cb: CallbackQuery):
+        subscribed = IsSubscribed.check(cb)
+        if subscribed:
+            self.bot.send_message(cb.message.chat.id,"🖥 Asosiy menyudasiz")
+        else:
+            self.bot.answer_callback_query(cb.id,"⚠️ Botdan foydalanish uchun kanallarga obuna bo'ling.",show_alert=True)
+    
     def askFunc(self,m: Message):
         msg=self.bot.send_message(m.chat.id,"""Bu bo'lim sizga savollarga javob topishda va ko'plab boshqa muammolarni yechishda yordam beradi. Foydalanish uchun biron bir matn kiriting.
 
@@ -108,6 +116,8 @@ Masalan:  ``` Offisda ishlayotgan mushuk. ```""")
     def statsFunc(self,m: Message):
         self.bot.send_message(m.chat.id,f"📊 Botda ayni paytda {get_count()}ta obunachi mavjud.")
     
+    def checkFilter(self,cb: CallbackQuery):
+        return cb.data=="check"
     def askFilter(self,m: Message):
         return m.text=="Savol berish ❔"
     def genFilter(self,m: Message):
