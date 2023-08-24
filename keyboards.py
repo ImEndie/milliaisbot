@@ -105,7 +105,7 @@ Masalan:  ``` Offisda ishlayotgan mushuk. ```""")
     def requestFunc(self,m: Message):
         self.bot.send_message(m.chat.id,"📨 Reklama va takliflar uchun murojaat:\n@Naruzzo\n@ImEndie")
     def statsFunc(self,m: Message):
-        self.bot.send_message(m.chat.id,f"📊 Botda aynipaytda {get_count()}ta obunachi mavjud.")
+        self.bot.send_message(m.chat.id,f"📊 Botda ayni paytda {get_count()}ta obunachi mavjud.")
     
     def askFilter(self,m: Message):
         return m.text=="Savol berish ❔"
