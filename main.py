@@ -11,7 +11,7 @@ keyboards=Keyboards(bot)
 @bot.message_handler(content_types=['new_chat_members'])
 def new_chat_members(m: Message):
     for i in m.new_chat_members:
-        bot.send_message(m.chat.id,f"Assalomu alaykum {i.first_name}!\nGuruxga xush kelibsiz.")
+        bot.send_message(m.chat.id,f"Assalomu alaykum {i.first_name}!\nGuruhga xush kelibsiz.")
     try:
         bot.delete_message(m.chat.id,m.id)
     except Exception as e:
