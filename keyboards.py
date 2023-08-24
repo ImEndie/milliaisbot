@@ -47,7 +47,7 @@ class Keyboards:
     def askFunc(self,m: Message):
         msg=self.bot.send_message(m.chat.id,"""Bu bo'lim sizga savollarga javob topishda va ko'plab boshqa muammolarni yechishda yordam beradi. Foydalanish uchun biron bir matn kiriting.
 
-Masalan:  Salom milliai!""")
+Masalan:  ``` Salom milliai! ```""")
         self.bot.register_next_step_handler(msg,self.askFunc2)
     def askFunc2(self,m: Message):
         if self.anotherFilter(m):
@@ -85,7 +85,7 @@ Masalan:  ``` Offisda ishlayotgan mushuk. ```""")
         except Exception as e:
             print(e)
     def contactFunc(self,m: Message):
-        msg=self.bot.reply_to(m,f"Adminlarga yuborish uchun xabarni kiriting.")
+        msg=self.bot.reply_to(m,f"📧 Xabaringiz va foydalanuvchi nomingizni yozib qoldiring. Adminlar tez orada aloqaga chiqishadi.")
         self.bot.register_next_step_handler(msg,self.contactFunc2)
     def contactFunc2(self,m: Message):
         if self.anotherFilter(m):
@@ -102,9 +102,9 @@ Masalan:  ``` Offisda ishlayotgan mushuk. ```""")
             print(e)
             self.bot.copy_message(m.reply_to_message.forward_from.id,m.chat.id,m.id)
     def requestFunc(self,m: Message):
-        self.bot.send_message(m.chat.id,"Reklama va takliflar uchun murojaat:\n@Naruzzo\n@ImEndie")
+        self.bot.send_message(m.chat.id,"📨 Reklama va takliflar uchun murojaat:\n@Naruzzo\n@ImEndie")
     def statsFunc(self,m: Message):
-        self.bot.send_message(m.chat.id,f"Botdan hozirda {get_count()}ta foydalanuvchi foydalanadi.")
+        self.bot.send_message(m.chat.id,f"📊 Botda aynipaytda {get_count()}ta obunachi mavjud.")
     
     def askFilter(self,m: Message):
         return m.text=="Savol berish ❔"
