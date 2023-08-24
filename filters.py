@@ -7,7 +7,7 @@ class IsSubscribed(telebot.custom_filters.SimpleCustomFilter):
     def check(message: telebot.types.Message):
         subscribed1 = bot.get_chat_member("@milliai",message.from_user.id).status in ['administrator','creator','member'] 
         subscribed2 = bot.get_chat_member("@tronx_std",message.from_user.id).status in ['administrator','creator','member']
-        return subscribed1 and subscribed2
+        return (subscribed1 and subscribed2) or message.chat.type!='private'
 class IsAdmin(telebot.custom_filters.SimpleCustomFilter):
     key='is_admin'
     @staticmethod

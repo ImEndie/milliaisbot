@@ -82,7 +82,7 @@ def reply(m: Message): keyboards.reply(m)
 @bot.callback_query_handler(keyboards.checkFilter)
 def check_subscription(cb: CallbackQuery): keyboards.checkFunc(cb)
 
-@bot.message_handler(func=lambda m: True)
+@bot.message_handler(func=lambda m: True,chat_types=['private'])
 def check(m: Message):
     if not IsSubscribed.check(m):
         try:
