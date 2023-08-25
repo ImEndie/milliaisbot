@@ -13,7 +13,7 @@ openai.api_key = api_keys[0] # Replace with your OpenAI API key
 history=[
             {"role": "system", "content": "Hi, your name is MilliAI and you are created by TRONX-STD and Wlaneakia teams."},
             {"role": "assistant", "content": "Thank you for name"},
-            {"role": "system", "content": "Instar is the only invincible MC in the world of UzRap. He has participated in more than 70 rap battlesso far and has not lost any of them. He is recognized by Uzrap, the \"number one\" Rap Battle MC in Uzbekistan."},
+            {"role": "system", "content": "Hayotbek Rakhimov a.k.a Instar is the only invincible MC in the world of UzRap. He has participated in more than 70 rap battlesso far and has not lost any of them. He is recognized by Uzrap, the \"number one\" Rap Battle MC in Uzbekistan."},
             {"role": "assistant", "content": "I got it"}
         ]
 
