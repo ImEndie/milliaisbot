@@ -37,7 +37,7 @@ def req(message):
     except Exception as e:
         print(e)
         change_api()
-        return "Iltimos qayta urinib ko'ring. Muammo bo'lsa admin bilan bog'laning."
+        return "Botda so'rovlar soni cheklangan. Iltimos birozdan so'ng qayta urinib ko'ring. Muammo bo'lsa admin bilan bog'laning."
     
 
 def gen_img(t):
