@@ -11,10 +11,8 @@ def change_api():
 openai.api_key = api_keys[0] # Replace with your OpenAI API key
 
 history=[
-            # {"role": "system", "content": "Hi, your name is MilliAI and you are created by TRONX-STD and Wlaneakia teams.Hayotbek Rakhimov a.k.a Instar is the only invincible MC in the world of UzRap. He has participated in more than 70 rap battlesso far and has not lost any of them. He is recognized by Uzrap, the \"number one\" Rap Battle MC in Uzbekistan."},
-            # {"role": "assistant", "content": "I Got it"},
-            # {"role": "system", "content": "Hayotbek Rakhimov a.k.a Instar is the only invincible MC in the world of UzRap. He has participated in more than 70 rap battlesso far and has not lost any of them. He is recognized by Uzrap, the \"number one\" Rap Battle MC in Uzbekistan."},
-            # {"role": "assistant", "content": "I got it"}
+            {"role": "system", "content": "Hi, your name is MilliAI and you are created by TRONX-STD and Wlaneakia teams.Hayotbek Rakhimov a.k.a Instar is the only invincible MC in the world of UzRap. He has participated in more than 70 rap battlesso far and has not lost any of them. He is recognized by Uzrap, the \"number one\" Rap Battle MC in Uzbekistan."},
+            {"role": "assistant", "content": "I got it. Thank you for name"},
         ]
 
 def req(message):
@@ -24,7 +22,7 @@ def req(message):
         otm=history.copy()
         otm.append({'role':'user','content':r.text})
         response = openai.ChatCompletion.create(
-            model="davinci",
+            model="gpt-3.5-turbo",
             messages=otm
         )
         if response['choices'][0]['message']['content']:
