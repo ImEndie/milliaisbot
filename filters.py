@@ -4,7 +4,7 @@ from bot import bot
 class IsSubscribed(telebot.custom_filters.SimpleCustomFilter):
     key='is_subscribed'
     @staticmethod
-    def check(message: telebot.types.Message | telebot.types.CallbackQuery):
+    def check(message):
         subscribed1 = bot.get_chat_member("@milliai",message.from_user.id).status in ['administrator','creator','member'] 
         subscribed2 = bot.get_chat_member("@tronx_std",message.from_user.id).status in ['administrator','creator','member']
         try:
