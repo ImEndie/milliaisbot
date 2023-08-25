@@ -4,10 +4,13 @@ from bot import bot
 class IsSubscribed(telebot.custom_filters.SimpleCustomFilter):
     key='is_subscribed'
     @staticmethod
-    def check(message: telebot.types.Message):
+    def check(message: telebot.types.Message | telebot.types.CallbackQuery):
         subscribed1 = bot.get_chat_member("@milliai",message.from_user.id).status in ['administrator','creator','member'] 
         subscribed2 = bot.get_chat_member("@tronx_std",message.from_user.id).status in ['administrator','creator','member']
-        return (subscribed1 and subscribed2) or message.chat.type!='private'
+        try:
+            return (subscribed1 and subscribed2) or message.chat.type!='private'
+        except:
+            return (subscribed1 and subscribed2) or message.message.type!='private'
 class IsAdmin(telebot.custom_filters.SimpleCustomFilter):
     key='is_admin'
     @staticmethod
