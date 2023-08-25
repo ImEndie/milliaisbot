@@ -51,7 +51,7 @@ class Keyboards:
         subscribed = IsSubscribed.check(cb)
         if subscribed:
             self.bot.delete_message(cb.message.chat.id,cb.message.id)
-            self.bot.send_message(cb.message.chat.id,"🖥 Asosiy menyudasiz")
+            self.bot.send_message(cb.message.chat.id,"🖥 Asosiy menyudasiz",reply_markup=self.getMainButtons())
         else:
             self.bot.answer_callback_query(cb.id,"⚠️ Botdan foydalanish uchun kanallarga obuna bo'ling.",show_alert=True)
     
