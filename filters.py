@@ -10,7 +10,7 @@ class IsSubscribed(telebot.custom_filters.SimpleCustomFilter):
         try:
             return (subscribed1 and subscribed2) or message.chat.type!='private'
         except:
-            return (subscribed1 and subscribed2) or message.message.type!='private'
+            return (subscribed1 and subscribed2) or message.message.chat.type!='private'
 class IsAdmin(telebot.custom_filters.SimpleCustomFilter):
     key='is_admin'
     @staticmethod
