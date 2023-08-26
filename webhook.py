@@ -7,7 +7,7 @@ from main import *
 app=Flask(__name__)
 
 
-@app.route('/' + BOT_TOKEN, methods=['POST'])
+@app.route('/webhook/' + BOT_TOKEN, methods=['POST'])
 def getMessage():
     json_string = request.get_data().decode('utf-8')
     update = telebot.types.Update.de_json(json_string)
@@ -19,7 +19,7 @@ def getMessage():
 def index():
     return "!", 200
 
-@app.route("/image{fname}")
+@app.route("/images/{fname}")
 def image(fname):
     try:
         return send_file(fname)
