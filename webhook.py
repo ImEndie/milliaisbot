@@ -19,8 +19,9 @@ def getMessage():
 def index():
     return "!", 200
 
-@app.route("/images/{fname}")
-def image(fname):
+@app.route("/image")
+def image():
+    fname=request.args.get('fname')
     try:
         return send_file(fname)
     except Exception as e:
