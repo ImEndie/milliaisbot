@@ -31,6 +31,8 @@ class Keyboards:
         markup.add(InlineKeyboardButton("Tekshirish 🔁",callback_data="check"),row_width=1)
         return markup
     def anotherFilter(self,m):
+        if m.text.startswith("/"):
+            return True
         if self.askFilter(m): 
             self.askFunc(m)
             return True
@@ -64,11 +66,13 @@ Masalan:  ``` Salom milliai! ```""")
         if self.anotherFilter(m):
             return
         msg=self.bot.send_message(m.chat.id,"🤔 Oʻylayapman. \nBiroz kuting...")
-        r=req(m.text)
+        r=req(m)
         try:
-            self.bot.reply_to(m,r)
+            msg2=self.bot.send_message(m.chat.id,r,reply_to_message_id=m.id)
+            self.bot.register_next_step_handler(msg2,self.askFunc2)
         except:
-            self.bot.send_message(m.chat.id,r)
+            msg2=self.bot.send_message(m.chat.id,r)
+            self.bot.register_next_step_handler(msg2,self.askFunc2)
         try:
             self.bot.delete_message(msg.chat.id,msg.id)
         except Exception as e:
@@ -82,13 +86,15 @@ Masalan:  ``` Offisda ishlayotgan mushuk. ```""")
     def genFunc2(self,m: Message):
         if self.anotherFilter(m):
             return
-        msg=self.bot.send_message(m.chat.id,"Rasm chizyapman.\nBiroz kuting.")
-        r=gen_img(m.text)
+        msg=self.bot.send_message(m.chat.id,"✏️ Rasm chizyapman.\nBiroz kuting.")
+        r=gen_img(m)
         try:
             try:
-                self.bot.send_photo(m.chat.id,photo=r,reply_to_message_id=m.id)
+                msg2=self.bot.send_photo(m.chat.id,photo=r,reply_to_message_id=m.id)
+                self.bot.register_next_step_handler(msg2,self.genFunc2)
             except:
-                self.bot.send_photo(m.chat.id,photo=r)
+                msg2=self.bot.send_photo(m.chat.id,photo=r)
+                self.bot.register_next_step_handler(msg2,self.genFunc2)
         except:
             self.bot.send_message(m.chat.id,r)
         try:

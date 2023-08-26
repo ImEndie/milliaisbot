@@ -1,4 +1,4 @@
-from flask import Flask,request
+from flask import Flask,request,send_file
 from bot import bot
 import telebot
 from vars import BOT_TOKEN
@@ -19,5 +19,13 @@ def getMessage():
 def index():
     return "!", 200
 
+@app.route("/images/{fname}")
+def image(fname):
+    try:
+        return send_file(fname)
+    except Exception as e:
+        print(e)
+        return "error"
+
 if __name__=='__main__':
-    app.run('0.0.0.0',port=8080,debug=False)
+    app.run('0.0.0.0',8080,debug=False)
