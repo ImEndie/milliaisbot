@@ -96,8 +96,9 @@ Masalan:  ``` Offisda ishlayotgan mushuk. ```""")
             except:
                 msg2=self.bot.send_photo(m.chat.id,photo=r)
                 self.bot.register_next_step_handler(msg2,self.genFunc2)
-        except:
+        except Exception as e:
             self.bot.send_message(m.chat.id,r)
+            print(e)
         try:
             self.bot.delete_message(msg.chat.id,msg.id)
         except Exception as e:

@@ -42,7 +42,7 @@ def req(m):
         return "Botda so'rovlar soni cheklangan. Iltimos birozdan so'ng qayta urinib ko'ring. Muammo bo'lsa admin bilan bog'laning."
     
 def gen_img(msg):
-    t=translator.translate(text=msg.text,dest='uz').text
+    t=translator.translate(text=msg.text,dest='en').text
     print(t,msg.from_user)
     try:
         fname=f"{msg.chat.id}_{msg.id}.png"
