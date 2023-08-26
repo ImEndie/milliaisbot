@@ -88,6 +88,7 @@ Masalan:  ``` Offisda ishlayotgan mushuk. ```""")
             return
         msg=self.bot.send_message(m.chat.id,"✏️ Rasm chizyapman.\nBiroz kuting.")
         r=gen_img(m)
+        print(r)
         try:
             try:
                 msg2=self.bot.send_photo(m.chat.id,photo=r,reply_to_message_id=m.id)
