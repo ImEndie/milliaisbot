@@ -19,7 +19,7 @@ def getMessage():
 def index():
     return "!", 200
 
-@app.route("/images/{fname}")
+@app.route("/image{fname}")
 def image(fname):
     try:
         return send_file(fname)
