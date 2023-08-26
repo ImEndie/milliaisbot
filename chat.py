@@ -49,7 +49,7 @@ def gen_img(msg):
         response = requests.request("POST", HF_API_URL, headers=HF_HEADERS, data=t)
         with open(fname,"wb") as f:
             f.write(response.content)
-        return f"{HOST}/image?fname={fname}"
+        return fname
     except:
         return "No'malum xatolik yuz berdi. Iltimos admin bilan bog'laning."
 

@@ -91,10 +91,10 @@ Masalan:  ``` Offisda ishlayotgan mushuk. ```""")
         print(r)
         try:
             try:
-                msg2=self.bot.send_photo(m.chat.id,photo=r,reply_to_message_id=m.id)
+                msg2=self.bot.send_photo(m.chat.id,photo=open(r,"rb"),reply_to_message_id=m.id)
                 self.bot.register_next_step_handler(msg2,self.genFunc2)
             except:
-                msg2=self.bot.send_photo(m.chat.id,photo=r)
+                msg2=self.bot.send_photo(m.chat.id,photo=open(r,"rb"))
                 self.bot.register_next_step_handler(msg2,self.genFunc2)
         except Exception as e:
             self.bot.send_message(m.chat.id,r)
