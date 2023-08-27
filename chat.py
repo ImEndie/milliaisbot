@@ -19,28 +19,58 @@ history=[
         ]
 
 def req(m):
-    message=m.text
-    print(message)
+    if type(m)==type(''):
+        message=m
+    else:
+        message=m.text
     try:
-        r=translator.translate(text=message)
+        if "kod" in message or "cod" in message or "dastur" in message:
+            otm=history.copy()
+            otm.append({'role':'user','content':message})
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=otm
+            )
+            response=response['choices'][0]['message']['content']
+            return response
+        r=translator.translate(text=message).text
         otm=history.copy()
-        otm.append({'role':'user','content':r.text})
+        otm.append({'role':'user','content':r})
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=otm
         )
-        if response['choices'][0]['message']['content']:
-            history.append(otm[-1])
-            history.append(response['choices'][0]['message'])
-            r=translator.translate(text=response['choices'][0]['message']['content'],dest='uz')
-            return r.text
-        else:
-            return "Kechirasiz, savolingizni tushunmadim"
+        response=response['choices'][0]['message']['content']
+        r=translator.translate(text=response,dest='uz').text
+        return r
     except Exception as e:
         print(e)
         change_api()
         return "Botda so'rovlar soni cheklangan. Iltimos birozdan so'ng qayta urinib ko'ring. Muammo bo'lsa admin bilan bog'laning."
+
+def replace_wrapped_text(string: str,start_marker,end_marker):
+    new_text='teht'
+    replaceds=[]
+    start_index = string.find(start_marker)
+    # print(start_index)
+    while start_index != -1:
+        end_index = string.find(end_marker, start_index + 1)
+        
+        if end_index != -1:
+            wrapped_text = string[start_index: end_index+1]
+            replaceds.append(wrapped_text)
+            string = string.replace(wrapped_text, new_text)
+        start_index = string.find(start_marker, start_index + 1)
     
+    return [string,replaceds]
+
+def replace_to_old(replaced):
+    string=replaced[0]
+    for i in replaced[1]:
+        print(i)
+        string.replace("teht",i)
+    return [string,replaced[1]]
+
 def gen_img(msg):
     t=translator.translate(text=msg.text,dest='en').text
     print(t,msg.from_user)
