@@ -74,7 +74,7 @@ Masalan:  ``` Salom milliai! ```""")
             msg2=self.bot.send_message(m.chat.id,r)
             self.bot.register_next_step_handler(msg2,self.askFunc2)
         try:
-            self.bot.delete_message(msg.chat.id,msg.id)
+            self.bot.delete_message(m.chat.id,msg.id)
         except Exception as e:
             print(e)
     def genFunc(self,m: Message):
