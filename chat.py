@@ -10,7 +10,7 @@ def change_api():
     openai.api_key=api_keys[0]
 
 openai.api_key = api_keys[0]
-HF_API_URL = "https://api-inference.huggingface.co/models/prompthero/openjourney"
+HF_API_URL = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2-1"
 HF_HEADERS = {"Authorization": f"Bearer {HF_API_TOKEN}"}
 
 history=[
