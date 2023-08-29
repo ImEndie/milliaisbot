@@ -80,7 +80,6 @@ def gen_img(msg):
         t=translator.translate(text=msg,dest='en').text
     else:
         t=translator.translate(text=msg.text,dest='en').text
-    print(t,msg.from_user)
     try:
         fname=f"{msg.chat.id}_{msg.id}.png"
         response = requests.request("POST", HF_API_URL, headers=HF_HEADERS, data=t)
