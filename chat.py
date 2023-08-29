@@ -42,7 +42,7 @@ def req(m):
         )
         response=response['choices'][0]['message']['content']
         if True in [i in response for i in ["cod","kod","dastur","program","script","skript"]]:
-            return r
+            return response
         print(response)
         r=translator.translate(text=response,dest='uz').text
         print(r)
