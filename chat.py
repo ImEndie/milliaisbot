@@ -76,7 +76,10 @@ def replace_to_old(replaced):
     return [string,replaced[1]]
 
 def gen_img(msg):
-    t=translator.translate(text=msg.text,dest='en').text
+    if type(msg)==type(""):
+        t=translator.translate(text=msg,dest='en').text
+    else:
+        t=translator.translate(text=msg.text,dest='en').text
     print(t,msg.from_user)
     try:
         fname=f"{msg.chat.id}_{msg.id}.png"
