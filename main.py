@@ -55,16 +55,18 @@ def contact(m: Message): keyboards.contactFunc(m)
 
 @bot.message_handler(is_subscribed=True,content_types=['text'],func=lambda m: m.text.startswith('/photo'),chat_types=['group','supergroup'])
 def rasm(m: Message):
-    r=gen_img(' '.join(m.text.split()[1:]))
+    r=gen_img(m)
+    print(r)
     try:
         bot.send_chat_action(m.chat.id,'upload_photo')
         try:
-            bot.send_photo(m.chat.id,photo=r,reply_to_message_id=m.id)
+            bot.send_photo(m.chat.id,photo=open(r,'rb'),reply_to_message_id=m.id)
         except:
-            bot.send_photo(m.chat.id,photo=r)
+            bot.send_photo(m.chat.id,photo=open(r,'rb'))
     except Exception as e:
         bot.send_chat_action(m.chat.id,'typing')
         bot.send_message(m.chat.id,r)
+        print(e)
 
 @bot.message_handler(is_subscribed=True,content_types=['text'],func=keyboards.genFilter)
 def rasm_pr(m: Message): keyboards.genFunc(m)
@@ -72,10 +74,11 @@ def rasm_pr(m: Message): keyboards.genFunc(m)
 @bot.message_handler(is_subscribed=True,content_types=['text'],func=lambda m: m.text.startswith('/ask'),chat_types=['group','supergroup'])
 def rec_gr(m: Message):
     bot.send_chat_action(m.chat.id,'typing')
+    r=req(' '.join(m.text.split()[1:]))
     try:
-        bot.reply_to(m,req(' '.join(m.text.split()[1:])))
+        bot.reply_to(m,r)
     except:
-        bot.send_message(m,req(' '.join(m.text.split()[1:])))
+        bot.send_message(m.chat.id,r)
 
 @bot.message_handler(is_subscribed=True,content_types=['text'],chat_types=['private'],func=keyboards.askFilter)
 def rec_pr(m: Message): keyboards.askFunc(m)

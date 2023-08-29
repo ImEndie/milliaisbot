@@ -76,17 +76,18 @@ def replace_to_old(replaced):
     return [string,replaced[1]]
 
 def gen_img(msg):
-    if type(msg)==type(""):
-        t=translator.translate(text=msg,dest='en').text
-    else:
-        t=translator.translate(text=msg.text,dest='en').text
+    txt=msg.text
+    if txt.startswith("/photo"):
+        txt=' '.join(txt.split()[1:])
+    t=translator.translate(text=txt,dest='en').text
     try:
         fname=f"{msg.chat.id}_{msg.id}.png"
         response = requests.request("POST", HF_API_URL, headers=HF_HEADERS, data=t)
         with open(fname,"wb") as f:
             f.write(response.content)
         return fname
-    except:
+    except Exception as e:
+        print(e)
         return "No'malum xatolik yuz berdi. Iltimos admin bilan bog'laning."
 
 # def gen_img(msg):
