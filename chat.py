@@ -24,7 +24,7 @@ def req(m):
     else:
         message=m.text
     try:
-        if "kod" in message or "cod" in message or "dastur" in message:
+        if True in [i in message for i in ["cod","kod","dastur","program","script","skript"]]:
             otm=history.copy()
             otm.append({'role':'user','content':message})
             response = openai.ChatCompletion.create(
