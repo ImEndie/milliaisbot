@@ -53,11 +53,14 @@ class Keyboards:
         subscribed = IsSubscribed.check(cb)
         if subscribed:
             self.bot.delete_message(cb.message.chat.id,cb.message.id)
+            self.bot.send_chat_action(cb.message.chat.id,'typing')
             self.bot.send_message(cb.message.chat.id,"🖥 Asosiy menyudasiz",reply_markup=self.getMainButtons())
         else:
+            self.bot.send_chat_action(cb.message.chat.id,'typing')
             self.bot.answer_callback_query(cb.id,"⚠️ Botdan foydalanish uchun kanallarga obuna bo'ling.",show_alert=True)
     
     def askFunc(self,m: Message):
+        self.bot.send_chat_action(m.chat.id,'typing')
         msg=self.bot.send_message(m.chat.id,"""Bu bo'lim sizga savollarga javob topishda va ko'plab boshqa muammolarni yechishda yordam beradi. Foydalanish uchun biron bir matn kiriting.
 
 Masalan:  ``` Salom milliai! ```""")
@@ -65,12 +68,15 @@ Masalan:  ``` Salom milliai! ```""")
     def askFunc2(self,m: Message):
         if self.anotherFilter(m):
             return
+        self.bot.send_chat_action(m.chat.id,'typing')
         msg=self.bot.send_message(m.chat.id,"🤔 Oʻylayapman. \nBiroz kuting...")
         r=req(m)
         try:
+            self.bot.send_chat_action(m.chat.id,'typing')
             msg2=self.bot.send_message(m.chat.id,r,reply_to_message_id=m.id)
             self.bot.register_next_step_handler(msg2,self.askFunc2)
         except:
+            self.bot.send_chat_action(m.chat.id,'typing')
             msg2=self.bot.send_message(m.chat.id,r)
             self.bot.register_next_step_handler(msg2,self.askFunc2)
         try:
@@ -78,6 +84,7 @@ Masalan:  ``` Salom milliai! ```""")
         except Exception as e:
             print(e)
     def genFunc(self,m: Message):
+        self.bot.send_chat_action(m.chat.id,'typing')
         msg=self.bot.send_message(m.chat.id,"""Bu bo'lim sizga rasmlarni osongina yaratish uchun yordam beradi. 
 Foydalanish uchun rasm haqidagi matnni kiriting.
 
@@ -86,17 +93,20 @@ Masalan:  ``` Offisda ishlayotgan mushuk. ```""")
     def genFunc2(self,m: Message):
         if self.anotherFilter(m):
             return
+        self.bot.send_chat_action(m.chat.id,'typing')
         msg=self.bot.send_message(m.chat.id,"✏️ Rasm chizyapman.\nBiroz kuting.")
         r=gen_img(m)
         print(r)
         try:
             try:
+                self.bot.send_chat_action(m.chat.id,'upload_photo')
                 msg2=self.bot.send_photo(m.chat.id,photo=open(r,"rb"),reply_to_message_id=m.id)
                 self.bot.register_next_step_handler(msg2,self.genFunc2)
             except:
                 msg2=self.bot.send_photo(m.chat.id,photo=open(r,"rb"))
                 self.bot.register_next_step_handler(msg2,self.genFunc2)
         except Exception as e:
+            self.bot.send_chat_action(m.chat.id,'typing')
             self.bot.send_message(m.chat.id,r)
             print(e)
         try:
@@ -104,6 +114,7 @@ Masalan:  ``` Offisda ishlayotgan mushuk. ```""")
         except Exception as e:
             print(e)
     def contactFunc(self,m: Message):
+        self.bot.send_chat_action(m.chat.id,'typing')
         msg=self.bot.reply_to(m,f"📧 Xabaringiz va foydalanuvchi nomingizni yozib qoldiring. Adminlar tez orada aloqaga chiqishadi.")
         self.bot.register_next_step_handler(msg,self.contactFunc2)
     def contactFunc2(self,m: Message):
@@ -121,8 +132,10 @@ Masalan:  ``` Offisda ishlayotgan mushuk. ```""")
             print(e)
             self.bot.copy_message(m.reply_to_message.forward_from.id,m.chat.id,m.id)
     def requestFunc(self,m: Message):
+        self.bot.send_chat_action(m.chat.id,'typing')
         self.bot.send_message(m.chat.id,"📨 Reklama va takliflar uchun murojaat:\n@Naruzzo\n@ImEndie")
     def statsFunc(self,m: Message):
+        self.bot.send_chat_action(m.chat.id,'typing')
         self.bot.send_message(m.chat.id,f"📊 Botda ayni paytda {get_count()}ta obunachi mavjud.")
     
     def checkFilter(self,cb: CallbackQuery):

@@ -11,6 +11,7 @@ keyboards=Keyboards(bot)
 @bot.message_handler(content_types=['new_chat_members'])
 def new_chat_members(m: Message):
     for i in m.new_chat_members:
+        bot.send_chat_action(m.chat.id,'typing')
         bot.send_message(m.chat.id,f"Assalomu alaykum {i.first_name}!\nGuruhga xush kelibsiz.")
     try:
         bot.delete_message(m.chat.id,m.id)
@@ -20,6 +21,7 @@ def new_chat_members(m: Message):
 @bot.message_handler(is_subscribed=True,commands=['start'])
 def start(m: Message):
     ins(m.from_user.id)
+    bot.send_chat_action(m.chat.id,'typing')
     bot.send_message(
         m.chat.id,
         f"Assalomu alaykum {m.from_user.first_name}! Botdan foydalanish uchun /help buyrug'idan foydalaning.",
@@ -28,6 +30,7 @@ def start(m: Message):
 
 @bot.message_handler(is_subscribed=True,commands=['help'])
 def help(m: Message):
+    bot.send_chat_action(m.chat.id,'typing')
     bot.reply_to(m,"/ask — savollarga javob topishda va ko'plab boshqa muammolarni yechishda yordam beradi. Foydalanish uchun /ask buyrug'i bilan birgalikda xabar kiriting.\nMasalan: ``` /ask Salom milliai!``` \n/photo — rasmlarni osongina yaratish uchun yordam beradi. Foydalanish uchun /photo buyrug'i bilan birgalikda xabarni kiriting.\nMasalan: ``` /photo offisda ishlayotgan mushuk ```")
 
 @bot.message_handler(chat_types=['private'],content_types=['text'],func=keyboards.statsFilter)
@@ -36,6 +39,7 @@ def stats(m: Message): keyboards.statsFunc(m)
 @bot.message_handler(commands=['ad'])
 def ad(m: Message):
     if str(m.from_user.id) in ADMINS:
+        bot.send_chat_action(m.chat.id,'typing')
         msg=bot.reply_to(m,f"Reklama uchun postni menga yuboring.")
         bot.register_next_step_handler(msg,ad2)
 
@@ -53,11 +57,13 @@ def contact(m: Message): keyboards.contactFunc(m)
 def rasm(m: Message):
     r=gen_img(' '.join(m.text.split()[1:]))
     try:
+        bot.send_chat_action(m.chat.id,'upload_photo')
         try:
             bot.send_photo(m.chat.id,photo=r,reply_to_message_id=m.id)
         except:
             bot.send_photo(m.chat.id,photo=r)
     except Exception as e:
+        bot.send_chat_action(m.chat.id,'typing')
         bot.send_message(m.chat.id,r)
 
 @bot.message_handler(is_subscribed=True,content_types=['text'],func=keyboards.genFilter)
@@ -65,6 +71,7 @@ def rasm_pr(m: Message): keyboards.genFunc(m)
 
 @bot.message_handler(is_subscribed=True,content_types=['text'],func=lambda m: m.text.startswith('/ask'),chat_types=['group','supergroup'])
 def rec_gr(m: Message):
+    bot.send_chat_action(m.chat.id,'typing')
     try:
         bot.reply_to(m,req(' '.join(m.text.split()[1:])))
     except:
@@ -89,6 +96,7 @@ def check(m: Message):
             bot.delete_message(m.chat.id,m.id)
         except Exception as e:
             print(e)
+        bot.send_chat_action(m.chat.id,'typing')
         bot.send_message(m.chat.id,f"Assalomu alaykum {m.from_user.first_name}!\n⚠️ @milliaibot dan foydalanishdan oldin bizning rasmiy telegram sahifamizga va homiy telegram kanaliga obuna bo'ling. Soʻng botni qayta boshlashni unutmang!",reply_markup=keyboards.getChannelButton())
 
 
