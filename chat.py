@@ -34,15 +34,15 @@ def req(m):
             response=response['choices'][0]['message']['content']
             return response
         r=translator.translate(text=message).text
-        print(r)
         otm=history.copy()
         otm.append({'role':'user','content':r})
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=otm
         )
-        
         response=response['choices'][0]['message']['content']
+        if True in [i in response for i in ["cod","kod","dastur","program","script","skript"]]:
+            return r
         print(response)
         r=translator.translate(text=response,dest='uz').text
         print(r)
