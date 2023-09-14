@@ -26,7 +26,7 @@ class Keyboards:
         return markup
     def getChannelButton(self):
         markup=InlineKeyboardMarkup()
-        markup.add(InlineKeyboardButton("milli ai","https://t.me/milliai"),row_width=1)
+        markup.add(InlineKeyboardButton("coDesign","https://t.me/codes1gn"),row_width=1)
         markup.add(InlineKeyboardButton("TRONX-STD","https://t.me/tronx_std"),row_width=1)
         markup.add(InlineKeyboardButton("Tekshirish 🔁",callback_data="check"),row_width=1)
         return markup
