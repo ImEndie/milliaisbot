@@ -10,7 +10,7 @@ def change_api():
     openai.api_key=api_keys[0]
 
 openai.api_key = api_keys[0]
-HF_API_URL = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2-1"
+HF_API_URL = "https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5"
 HF_HEADERS = {"Authorization": f"Bearer {HF_API_TOKEN}"}
 
 history=[
@@ -82,7 +82,7 @@ def gen_img(msg):
     t=translator.translate(text=txt,dest='en').text
     try:
         fname=f"{msg.chat.id}_{msg.id}.png"
-        response = requests.request("POST", HF_API_URL, headers=HF_HEADERS, data=t)
+        response = requests.post(HF_API_URL, headers=HF_HEADERS, json={"inputs":t})
         with open(fname,"wb") as f:
             f.write(response.content)
         return fname

@@ -55,18 +55,7 @@ def contact(m: Message): keyboards.contactFunc(m)
 
 @bot.message_handler(is_subscribed=True,content_types=['text'],func=lambda m: m.text.startswith('/photo'),chat_types=['group','supergroup'])
 def rasm(m: Message):
-    r=gen_img(m)
-    print(r)
-    try:
-        bot.send_chat_action(m.chat.id,'upload_photo')
-        try:
-            bot.send_photo(m.chat.id,photo=open(r,'rb'),reply_to_message_id=m.id)
-        except:
-            bot.send_photo(m.chat.id,photo=open(r,'rb'))
-    except Exception as e:
-        bot.send_chat_action(m.chat.id,'typing')
-        bot.send_message(m.chat.id,r)
-        print(e)
+    keyboards.genFunc2(m)
 
 @bot.message_handler(is_subscribed=True,content_types=['text'],func=keyboards.genFilter)
 def rasm_pr(m: Message): keyboards.genFunc(m)

@@ -1,3 +1,4 @@
+import os
 from telebot.types import Message,ReplyKeyboardMarkup,KeyboardButton,InlineKeyboardButton,InlineKeyboardMarkup,CallbackQuery
 from telebot import TeleBot
 from chat import gen_img, req
@@ -106,13 +107,12 @@ Masalan:  ``` Offisda ishlayotgan mushuk. ```""")
                 msg2=self.bot.send_photo(m.chat.id,photo=open(r,"rb"))
                 self.bot.register_next_step_handler(msg2,self.genFunc2)
         except Exception as e:
-            self.bot.send_chat_action(m.chat.id,'typing')
-            self.bot.send_message(m.chat.id,r)
-            print(e)
+            self.bot.send_message(m.chat.id,"Xatolik yuz berdi")
         try:
             self.bot.delete_message(msg.chat.id,msg.id)
         except Exception as e:
             print(e)
+        os.remove(r)
     def contactFunc(self,m: Message):
         self.bot.send_chat_action(m.chat.id,'typing')
         msg=self.bot.reply_to(m,f"📧 Xabaringiz va foydalanuvchi nomingizni yozib qoldiring. Adminlar tez orada aloqaga chiqishadi.")
