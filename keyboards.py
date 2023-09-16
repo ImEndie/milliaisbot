@@ -75,11 +75,11 @@ Masalan:  ``` Salom milliai! ```""")
         try:
             self.bot.send_chat_action(m.chat.id,'typing')
             msg2=self.bot.send_message(m.chat.id,r,reply_to_message_id=m.id)
-            if not m.text.startswith("/photo"): self.bot.register_next_step_handler(msg2,self.askFunc2)
+            self.bot.register_next_step_handler(msg2,self.askFunc2)
         except:
             self.bot.send_chat_action(m.chat.id,'typing')
             msg2=self.bot.send_message(m.chat.id,r)
-            if not m.text.startswith("/photo"): self.bot.register_next_step_handler(msg2,self.askFunc2)
+            self.bot.register_next_step_handler(msg2,self.askFunc2)
         try:
             self.bot.delete_message(m.chat.id,msg.id)
         except Exception as e:
@@ -102,10 +102,10 @@ Masalan:  ``` Offisda ishlayotgan mushuk. ```""")
             try:
                 self.bot.send_chat_action(m.chat.id,'upload_photo')
                 msg2=self.bot.send_photo(m.chat.id,photo=open(r,"rb"),reply_to_message_id=m.id)
-                self.bot.register_next_step_handler(msg2,self.genFunc2)
+                if not m.text.startswith("/photo"): self.bot.register_next_step_handler(msg2,self.genFunc2)
             except:
                 msg2=self.bot.send_photo(m.chat.id,photo=open(r,"rb"))
-                self.bot.register_next_step_handler(msg2,self.genFunc2)
+                if not m.text.startswith("/photo"): self.bot.register_next_step_handler(msg2,self.genFunc2)
         except Exception as e:
             self.bot.send_message(m.chat.id,"Xatolik yuz berdi")
         try:
