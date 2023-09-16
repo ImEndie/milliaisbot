@@ -32,7 +32,7 @@ class Keyboards:
         markup.add(InlineKeyboardButton("Tekshirish 🔁",callback_data="check"),row_width=1)
         return markup
     def anotherFilter(self,m):
-        if m.text.startswith("/") and m.text.startswith("/photo"):
+        if m.text.startswith("/") and not m.text.startswith("/photo"):
             return True
         if self.askFilter(m): 
             self.askFunc(m)
