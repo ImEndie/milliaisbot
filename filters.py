@@ -6,7 +6,6 @@ class IsSubscribed(telebot.custom_filters.SimpleCustomFilter):
     @staticmethod
     def check(message):
         subscribed1 = bot.get_chat_member("@codes1gn",message.from_user.id).status in ['administrator','creator','member'] 
-        subscribed2 = bot.get_chat_member("@milliai",message.from_user.id).status in ['administrator','creator','member']
         try:
             return (subscribed1 and subscribed2) or message.chat.type!='private'
         except:
