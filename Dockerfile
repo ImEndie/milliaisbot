@@ -1,13 +1,10 @@
-FROM archlinux:latest
+FROM python:3.9-slim
 
-RUN pacman -S python-dotenv curl python-pip
+WORKDIR /app
+COPY . .
 
 RUN pip install -r requirements.txt
 
 EXPOSE 80
 
-
-WORKDIR /app
-COPY . .
-
-CMD ["python","webhook.py"]
+CMD ["gunicorn", "-b", "0.0.0.0:80", "webhook:app"]
