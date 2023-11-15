@@ -1,7 +1,6 @@
 Flask
 openai
 pyTelegramBotApi
-googletrans==3.1.0a0
 python-dotenv
 gunicorn
 psycopg2-binary
