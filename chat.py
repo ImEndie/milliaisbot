@@ -4,7 +4,6 @@ import requests
 
 client=openai.OpenAI(api_key=OPENAI_KEY)
 
-openai.api_key = api_keys[0]
 HF_API_URL = "https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5"
 HF_HEADERS = {"Authorization": f"Bearer {HF_API_TOKEN}"}
 
