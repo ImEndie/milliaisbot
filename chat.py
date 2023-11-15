@@ -22,7 +22,6 @@ def req(m):
 
     except Exception as e:
         print(e)
-        change_api()
         return "Botda so'rovlar soni cheklangan. Iltimos birozdan so'ng qayta urinib ko'ring. Muammo bo'lsa admin bilan bog'laning."
 
 def replace_to_old(replaced):
