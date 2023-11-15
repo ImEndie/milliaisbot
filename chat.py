@@ -2,7 +2,7 @@ import openai
 from vars import OPENAI_KEY,HF_API_TOKEN,HOST
 import requests
 
-client=openai.OpenAI(OPENAI_KEY)
+client=openai.OpenAI(api_key=OPENAI_KEY)
 
 openai.api_key = api_keys[0]
 HF_API_URL = "https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5"
